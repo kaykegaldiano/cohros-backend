@@ -41,14 +41,34 @@ class User
         return $this->name;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getPassword(): string
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getHashPassword(): string
     {
         return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = password_hash($password, PASSWORD_ARGON2ID);
+    }
+
+    public function checkPasswordIsCorrect(string $password): bool
+    {
+        return password_verify($password, $this->password);
     }
 
     public function getCreatedAt(): DateTimeImmutable
