@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -26,9 +28,14 @@ class User
     #[ORM\Column(type: 'datetime')]
     private DateTimeImmutable $createdAt;
 
+    /** @var Collection<string, Contact>  */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Contact::class)]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): int|null
@@ -74,5 +81,16 @@ class User
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function addContact(Contact $contact): void
+    {
+        $this->contacts[] = $contact;
+    }
+
+    /** @return Collection<string, Contact> */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
     }
 }

@@ -30,9 +30,13 @@ class Contact
     #[ORM\Column(type: 'datetime')]
     private \DateTimeImmutable $updatedAt;
 
-    /** @var Collection<string, \Phone> */
-    #[ORM\OneToMany(targetEntity: \Phone::class, mappedBy: 'contact')]
+    /** @var Collection<string, Phone> */
+    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: Phone::class)]
     private Collection $phones;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'contacts')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private User $user;
 
     public function __construct()
     {
@@ -90,14 +94,24 @@ class Contact
         $this->updatedAt = $updatedAt;
     }
 
-    public function addPhone(\Phone $phone): void
+    public function addPhone(Phone $phone): void
     {
         $this->phones[] = $phone;
     }
 
-    /** @return Collection<string, \Phone> */
+    /** @return Collection<string, Phone> */
     public function getPhones(): Collection
     {
         return $this->phones;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
