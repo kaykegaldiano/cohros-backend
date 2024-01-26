@@ -16,9 +16,9 @@ class PersistContact implements RequestHandlerInterface
     /** @var EntityRepository<User> */
     private EntityRepository $userRepository;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->userRepository = $entityManager->getRepository(User::class);
+        $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -26,7 +26,7 @@ class PersistContact implements RequestHandlerInterface
         $contactName = htmlspecialchars(filter_var($request->getParsedBody()['name'], FILTER_SANITIZE_SPECIAL_CHARS));
         $contactId = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
 
-        if ($contactId !== false) {
+        if (false !== $contactId) {
             $contact = $this->entityManager->find(Contact::class, $contactId);
             $contact->setName($contactName);
             $this->entityManager->flush();
