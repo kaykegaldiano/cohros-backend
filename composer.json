@@ -22,7 +22,8 @@
         "phpstan/phpstan": "^1.10",
         "friendsofphp/php-cs-fixer": "^3.48",
         "pestphp/pest": "^2.32",
-        "captainhook/captainhook": "^5.21"
+        "captainhook/captainhook": "^5.21",
+        "mockery/mockery": "^1.6"
     },
     "config": {
         "allow-plugins": {
