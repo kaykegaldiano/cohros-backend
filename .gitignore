@@ -2,4 +2,3 @@
 .php-cs-fixer.cache
 .php-cs-fixer.dist.php
 .idea/
-db.sqlite
