@@ -30,8 +30,10 @@ $creator = new ServerRequestCreator(
 $request = $creator->fromGlobals();
 
 $controllerClass = $routes[$path];
+
 /** @var ContainerInterface $container */
 $container = require __DIR__.'/../config/dependencies.php';
+
 /** @var RequestHandlerInterface $controller */
 $controller = $container->get($controllerClass);
 $response = $controller->handle($request);
