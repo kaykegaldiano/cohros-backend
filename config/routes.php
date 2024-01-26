@@ -5,5 +5,5 @@ use App\Controller\PersistContact;
 
 return [
     '/list-contacts' => ListContacts::class,
-    '/save-contact' => PersistContact::class
+    '/save-contact' => PersistContact::class,
 ];

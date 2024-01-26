@@ -6,9 +6,14 @@ use App\Model\Contact;
 use App\Model\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class PersistContact
+class PersistContact implements RequestHandlerInterface
 {
+    /** @var EntityRepository<User> */
     private EntityRepository $userRepository;
 
     public function __construct(private EntityManagerInterface $entityManager)
@@ -16,25 +21,34 @@ class PersistContact
         $this->userRepository = $entityManager->getRepository(User::class);
     }
 
-    public function handle(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $contactName = 'John';
-        $contactId = 1;
+        $contactName = htmlspecialchars(filter_var($request->getParsedBody()['name'], FILTER_SANITIZE_SPECIAL_CHARS));
+        $contactId = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
 
-        if (!is_null($contactId) && $contactId !== false) {
+        if ($contactId !== false) {
             $contact = $this->entityManager->find(Contact::class, $contactId);
             $contact->setName($contactName);
-        } else {
-            $user = $this->userRepository->findOneBy(['email' => 'test@test.com']);
-            $contact = new Contact();
-            $contact->setName($contactName);
-            $contact->setUser($user);
-            $user->getContacts()->add($contact);
-            $this->entityManager->persist($contact);
-            $this->entityManager->persist($user);
             $this->entityManager->flush();
+
+            return new Response(200, ['Content-Type' => 'application/json'], json_encode([
+                'status' => 'success',
+                'message' => 'Contact updated',
+            ]));
         }
 
+        $user = $this->userRepository->findOneBy(['email' => 'test@test.com']);
+        $contact = new Contact();
+        $contact->setName($contactName);
+        $contact->setUser($user);
+        $user->getContacts()->add($contact);
+        $this->entityManager->persist($contact);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return new Response(200, ['Content-Type' => 'application/json'], json_encode([
+            'status' => 'success',
+            'message' => 'Contact created',
+        ]));
     }
 }
