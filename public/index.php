@@ -9,6 +9,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+
 $path = $_SERVER['PATH_INFO'] ?? '/';
 $routes = require __DIR__.'/../config/routes.php';
 
