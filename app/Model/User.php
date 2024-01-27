@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +13,7 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int|null $id = null;
+    private null|int $id = null;
 
     #[ORM\Column(type: 'string')]
     private string $name = '';
@@ -26,19 +25,19 @@ class User
     private string $password = '';
 
     #[ORM\Column(type: 'datetime')]
-    private DateTimeImmutable $createdAt;
+    private \DateTime $createdAt;
 
-    /** @var Collection<string, Contact>  */
+    /** @var Collection<string, Contact> */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Contact::class)]
     private Collection $contacts;
 
     public function __construct()
     {
-        $this->createdAt = new DateTimeImmutable('now');
+        $this->createdAt = new \DateTime('now');
         $this->contacts = new ArrayCollection();
     }
 
-    public function getId(): int|null
+    public function getId(): null|int
     {
         return $this->id;
     }
@@ -78,7 +77,7 @@ class User
         return password_verify($password, $this->password);
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
