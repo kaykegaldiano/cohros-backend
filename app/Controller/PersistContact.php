@@ -31,7 +31,7 @@ class PersistContact implements RequestHandlerInterface
         try {
             $decodedToken = JWT::decode($token, new Key($_ENV['JWT_SECRET'], 'HS256'));
 
-//            return new Response(201, ['Content-Type' => 'application/json'], json_encode($decodedToken));
+            // return new Response(201, ['Content-Type' => 'application/json'], json_encode($decodedToken));
         } catch (\Throwable $t) {
             return new Response(401, ['Content-Type' => 'application/json'], json_encode([
                 'status' => 'error',
@@ -61,7 +61,7 @@ class PersistContact implements RequestHandlerInterface
             ]));
         }
 
-        $user = $this->userRepository->findOneBy(['email' => $decodedToken->email]);
+        $user = $this->userRepository->findOneBy(['email' => $decodedToken->userEmail]);
         $contact = new Contact();
         $contact->setName($contactName);
         $contact->setEmail($contactEmail);
