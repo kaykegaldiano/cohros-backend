@@ -14,4 +14,7 @@
             <directory suffix=".php">./app</directory>
         </include>
     </source>
+    <php>
+        <env name="JWT_SECRET" value="dsakjhdakjh34298342879y243y7y7wasuysa" />
+    </php>
 </phpunit>
