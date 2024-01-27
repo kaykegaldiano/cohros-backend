@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Dotenv\Dotenv;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Container\ContainerInterface;
@@ -9,7 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->safeLoad();
 
 $path = $_SERVER['PATH_INFO'] ?? '/';
