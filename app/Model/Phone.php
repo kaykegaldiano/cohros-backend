@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table(name: 'phones')]
-class Phone
+class Phone implements \JsonSerializable
 {
     #[Id]
     #[GeneratedValue]
@@ -49,5 +49,12 @@ class Phone
     public function setContact(Contact $contact): void
     {
         $this->contact = $contact;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'number' => $this->number,
+        ];
     }
 }

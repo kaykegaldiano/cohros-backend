@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'contacts')]
-class Contact
+class Contact implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -113,5 +113,16 @@ class Contact
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'address' => $this->address,
+            'phones' => $this->phones->toArray(),
+        ];
     }
 }

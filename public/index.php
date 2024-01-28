@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+header('Access-Control-Allow-Origin: *');
+
 use Dotenv\Dotenv;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;

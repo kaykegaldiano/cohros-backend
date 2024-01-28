@@ -3,4 +3,5 @@ parameters:
         - app/
     excludePaths:
         - tests/
+        - public/
     level: 6

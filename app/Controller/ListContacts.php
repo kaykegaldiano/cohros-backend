@@ -22,9 +22,9 @@ class ListContacts implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $user = $this->userRepository->findOneBy(['email' => 'test@test.com']);
+        $user = $this->userRepository->findOneBy(['email' => 'testuser@test.com']);
         $contacts = $user->getContacts();
 
-        return new Response(200, ['Content-Type' => 'application/json'], json_encode($contacts));
+        return new Response(200, ['Content-Type' => 'application/json'], json_encode($contacts->toArray()));
     }
 }
