@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 header('Access-Control-Allow-Origin: *');
 
-use Dotenv\Dotenv;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 require_once __DIR__.'/../vendor/autoload.php';
-
-$dotenv = Dotenv::createImmutable(__DIR__.'/../');
-$dotenv->safeLoad();
 
 $path = $_SERVER['PATH_INFO'] ?? '/';
 $routes = require __DIR__.'/../config/routes.php';
@@ -22,7 +18,8 @@ if (!isset($routes[$path])) {
     http_response_code(404);
 
     exit(json_encode([
-        'error' => 'Route not found',
+        'status' => 'error',
+        'message' => 'Route not found',
     ]));
 }
 
