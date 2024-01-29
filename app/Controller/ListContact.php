@@ -11,9 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ListContact implements RequestHandlerInterface
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(private readonly EntityManagerInterface $entityManager) {}
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -21,6 +19,7 @@ class ListContact implements RequestHandlerInterface
 
         if (false === $contactId) {
             http_response_code(401);
+
             return new Response(401, ['Content-Type' => 'application/json'], json_encode([
                 'status' => 'error',
                 'message' => 'Contact not found',
@@ -28,8 +27,9 @@ class ListContact implements RequestHandlerInterface
         }
 
         $contact = $this->entityManager->find(Contact::class, $contactId);
-        if ($contact === null) {
+        if (null === $contact) {
             http_response_code(401);
+
             return new Response(401, ['Content-Type' => 'application/json'], json_encode([
                 'status' => 'error',
                 'message' => 'Contact not found',
