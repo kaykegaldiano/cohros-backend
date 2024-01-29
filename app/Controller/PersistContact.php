@@ -32,7 +32,10 @@ class PersistContact implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $contactId = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
+        $contactId = null;
+        if (isset($request->getQueryParams()['id'])) {
+            $contactId = $request->getQueryParams()['id'] ? filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT) : null;
+        }
         $contactName = htmlspecialchars(filter_var($request->getParsedBody()['name'], FILTER_SANITIZE_SPECIAL_CHARS));
         $contactEmail = filter_var($request->getParsedBody()['email'], FILTER_VALIDATE_EMAIL);
         $contactAddress = filter_var($request->getParsedBody()['address'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -47,15 +50,16 @@ class PersistContact implements RequestHandlerInterface
         }
         unset($decodedPhone);
 
-        if (false !== $contactId) {
+        if (false !== $contactId && null !== $contactId) {
             $contact = $this->entityManager->find(Contact::class, $contactId);
             $contact->setName($contactName);
             $contact->setEmail($contactEmail);
             $contact->setAddress($contactAddress);
             foreach ($decodedPhones as $decodedPhone) {
                 if (!empty($decodedPhone['number'])) {
-                    $phone = $this->phoneRepository->findOneBy(['id' => $decodedPhone['id']]);
-                    if (null !== $phone) {
+                    $phone = null;
+                    if (isset($decodedPhone['id'])) {
+                        $phone = $this->phoneRepository->findOneBy(['id' => $decodedPhone['id']]);
                         $phone->setPhone($decodedPhone['number']);
                     }
                     if (null === $phone) {
@@ -92,9 +96,9 @@ class PersistContact implements RequestHandlerInterface
         $contact->setUser($user);
         $user->getContacts()->add($contact);
         foreach ($decodedPhones as $decodedPhone) {
-            if (!empty($decodedPhone->number)) {
+            if (!empty($decodedPhone['number'])) {
                 $phone = new Phone();
-                $phone->setPhone($decodedPhone->number);
+                $phone->setPhone($decodedPhone['number']);
                 $phone->setContact($contact);
                 $contact->getPhones()->add($phone);
                 $this->entityManager->persist($phone);
