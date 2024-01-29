@@ -34,7 +34,7 @@ class PersistContact implements RequestHandlerInterface
     {
         $contactId = null;
         if (isset($request->getQueryParams()['id'])) {
-            $contactId = $request->getQueryParams()['id'] ? filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT) : null;
+            $contactId = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
         }
         $contactName = htmlspecialchars(filter_var($request->getParsedBody()['name'], FILTER_SANITIZE_SPECIAL_CHARS));
         $contactEmail = filter_var($request->getParsedBody()['email'], FILTER_VALIDATE_EMAIL);
