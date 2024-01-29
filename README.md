@@ -1,5 +1,10 @@
 # Cohros Backend
 
+## Requirements
+- PHP 8.1+
+- Composer
+- SQLite extension enabled in php.ini
+
 ## Steps to install the project and its dependencies
 - First, clone the project
 - Run: ``composer install``
