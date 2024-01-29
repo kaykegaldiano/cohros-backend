@@ -35,7 +35,7 @@ This POST endpoint creates (or update if you specify a query param id) a contact
 - phoneNumber -> json of a maximum of 4 objects
 
 Example:
-![img.png](img.png)
+![img.png](docs/images/img.png)
 
 - ``/list-contact``
 
@@ -46,7 +46,7 @@ This GET endpoint lists all contacts created.
 This GET endpoint lists an specific user with a query param id.
 
 Example:
-![img_1.png](img_1.png)
+![img_1.png](docs/images/img_1.png)
 
 - ``/remove-contact?id=id``
 
