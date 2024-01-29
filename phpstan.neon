@@ -1,4 +1,6 @@
 parameters:
     paths:
         - app/
+    excludePaths:
+        - public/
     level: 6

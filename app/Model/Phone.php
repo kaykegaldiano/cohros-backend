@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table(name: 'phones')]
-class Phone
+class Phone implements \JsonSerializable
 {
     #[Id]
     #[GeneratedValue]
@@ -23,7 +23,7 @@ class Phone
     private string $number = '';
 
     #[ManyToOne(targetEntity: Contact::class, inversedBy: 'phones')]
-    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
+    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Contact $contact;
 
     public function getId(): null|int
@@ -49,5 +49,13 @@ class Phone
     public function setContact(Contact $contact): void
     {
         $this->contact = $contact;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'number' => $this->number,
+        ];
     }
 }

@@ -34,9 +34,6 @@
                         "args": ["php"]
                     }
                 ]
-            },
-            {
-                "action": "composer exec -- pest --parallel"
             }
         ]
     },

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+header('Access-Control-Allow-Origin: *');
+
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Container\ContainerInterface;
@@ -16,7 +18,8 @@ if (!isset($routes[$path])) {
     http_response_code(404);
 
     exit(json_encode([
-        'error' => 'Route not found',
+        'status' => 'error',
+        'message' => 'Route not found',
     ]));
 }
 
