@@ -29,6 +29,7 @@ class User
 
     /** @var Collection<string, Contact> */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Contact::class)]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $contacts;
 
     public function __construct()

@@ -31,7 +31,7 @@ class Contact implements \JsonSerializable
     private \DateTime $updatedAt;
 
     /** @var Collection<string, Phone> */
-    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: Phone::class)]
+    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: Phone::class, cascade: ['remove'])]
     private Collection $phones;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'contacts')]

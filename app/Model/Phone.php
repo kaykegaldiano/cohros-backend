@@ -23,7 +23,7 @@ class Phone implements \JsonSerializable
     private string $number = '';
 
     #[ManyToOne(targetEntity: Contact::class, inversedBy: 'phones')]
-    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
+    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Contact $contact;
 
     public function getId(): null|int
@@ -54,6 +54,7 @@ class Phone implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
+            'id' => $this->id,
             'number' => $this->number,
         ];
     }
